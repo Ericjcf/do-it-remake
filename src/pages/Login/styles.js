@@ -48,6 +48,9 @@ export const AnimationContainer = styled.div`
     margin: 80px 0;
     width: 340px;
     text-align: center;
+    > div {
+      margin-bottom: 10px;
+    }
   }
   h1 {
     margin-bottom: 2rem;

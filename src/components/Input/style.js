@@ -1,7 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   text-align: left;
+  div {
+    span {
+      color: var(--red);
+    }
+  }
 `;
 export default Container;
 
@@ -14,7 +19,15 @@ export const InputContainer = styled.div`
   width: 100%;
   display: flex;
   transition: 0.4s;
-  margin-bottom: 10px;
+
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border-color: var(--red);
+      svg {
+        color: var(--red);
+      }
+    `}
 
   input {
     margin-left: 10px;
