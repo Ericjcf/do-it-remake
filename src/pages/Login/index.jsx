@@ -6,6 +6,9 @@ import { FiUser, FiLock, FiMail } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import api from "../../services/api";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 function Login() {
   const schema = yup.object().shape({
@@ -25,10 +28,20 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(schema);
+  } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmitFunction = (data) => {
-    console.log(data);
+  const history = useHistory();
+
+  const onSubmitFunction = ({ name, email, password }) => {
+    const user = { name, email, password };
+    api
+      .post("user/register", user)
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Conta criada com sucesso");
+        return history.push("/");
+      })
+      .catch((err) => toast.error("Falha ao criar a conta, tente novamente"));
   };
 
   return (

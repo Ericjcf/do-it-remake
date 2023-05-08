@@ -1,6 +1,6 @@
 import { Container, Content } from "./styles";
 import { Button } from "../../components/Button";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Home() {
   const history = useHistory();
