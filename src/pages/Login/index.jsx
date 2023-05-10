@@ -9,18 +9,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom/cjs/react-router-dom";
 
-function Login() {
+function Login({ autenticado, setAutenticado }) {
   const schema = yup.object().shape({
-    name: yup.string().required("Campo Obrigatório"),
     email: yup.string().email("Email inválido!").required("Campo Obrigatório"),
     password: yup
       .string()
       .min(4, "mínimo de quatro dígitos")
-      .required("Campo Obrigatório"),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password")], "Senhas são diferentes")
       .required("Campo Obrigatório"),
   });
 
@@ -32,33 +28,35 @@ function Login() {
 
   const history = useHistory();
 
-  const onSubmitFunction = ({ name, email, password }) => {
-    const user = { name, email, password };
+  const onSubmitFunction = (data) => {
     api
-      .post("user/register", user)
+      .post("/user/login", data)
       .then((response) => {
+        const { token } = response.data;
+        localStorage.setItem("@doit:token", JSON.stringify(token));
+        setAutenticado(true);
         console.log(response.data);
-        toast.success("Conta criada com sucesso");
-        return history.push("/");
+        return history.push("/dashboard");
       })
-      .catch((err) => toast.error("Falha ao criar a conta, tente novamente"));
+      .catch((err) =>
+        toast.error("Email ou senha incorretos, tente novamente")
+      );
   };
+
+  if (autenticado) {
+    return <Redirect to="/dashboard" />;
+    // return history.push("/dashboard");
+    // aqui usamos o Redirect por que o direcionamento está sendo feito de forma automática
+    // quando a ação do usuário é necessária, ai usando o history.push
+  }
 
   return (
     <Container>
-      <Background />
       <Content>
         <AnimationContainer>
           <form onSubmit={handleSubmit(onSubmitFunction)}>
-            <h1>Cadastrar</h1>
-            <Input
-              register={register}
-              icon={FiUser}
-              label="Digite seu nome"
-              placeholder="Seu Nome"
-              name="name"
-              error={errors.name?.message}
-            />
+            <h1>Logar</h1>
+
             <Input
               register={register}
               icon={FiMail}
@@ -76,22 +74,16 @@ function Login() {
               name="password"
               error={errors.password?.message}
             />
-            <Input
-              register={register}
-              icon={FiLock}
-              label="Confirme a senha"
-              placeholder="Confirme Senha"
-              type="password"
-              name="confirmPassword"
-              error={errors.confirmPassword?.message}
-            />
-            <Button type="submit">Cadastrar</Button>
+
+            <Button type="submit">Logar</Button>
             <p>
-              Já possui um cadastro? clique <Link>aqui</Link> para logar
+              Ainda não possui um cadastro? clique
+              <Link to="/cadastro"> aqui </Link> para Cadastrar
             </p>
           </form>
         </AnimationContainer>
       </Content>
+      <Background />
     </Container>
   );
 }
