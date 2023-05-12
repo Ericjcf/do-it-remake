@@ -30,10 +30,10 @@ function Login({ autenticado, setAutenticado }) {
 
   const onSubmitFunction = (data) => {
     api
-      .post("/user/login", data)
+      .post("/login", data)
       .then((response) => {
-        const { token } = response.data;
-        localStorage.setItem("@doit:token", JSON.stringify(token));
+        const { accessToken } = response.data;
+        localStorage.setItem("@doit:accessToken", JSON.stringify(accessToken));
         setAutenticado(true);
         console.log(response.data);
         return history.push("/dashboard");

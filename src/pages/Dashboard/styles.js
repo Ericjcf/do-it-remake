@@ -1,65 +1,30 @@
-import styled, { keyframes } from "styled-components";
-import verde from "../../assets/verde.png";
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  align-items: stretch;
-  height: 100vh;
-`;
-
-export const Background = styled.div`
-  //aqui a div está criada, porém só vai renderizar esse elemento caso o tamanho de tela seja no minimo 1100px
-  @media (min-width: 1100px) {
-    flex: 1;
-    background: url(${verde}) no-repeat, #0f0227;
-    background-size: contain;
-  }
-`;
-
-export const Content = styled.div`
-  display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 700px;
+  padding: 0 38px;
 `;
 
-const appearFromLeft = keyframes`
-  from{
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to{
-    opacity: 1;
-    transform: translateX(0px);
-  }
-`;
+export const InputContainer = styled.form`
+  flex: 1;
+  margin-top: 2rem;
+  padding: 0 2.5rem;
+  section {
+    display: flex;
 
-export const AnimationContainer = styled.div`
-  //aqui é o container do formulário com animação
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  animation: ${appearFromLeft} 0.3s;
-
-  form {
-    margin: 80px 0;
-    width: 340px;
-    text-align: center;
     > div {
-      margin-bottom: 10px;
+      max-width: 80%;
+      flex: 1;
+      margin-right: 1rem;
     }
-  }
-  h1 {
-    margin-bottom: 2rem;
-  }
-  p {
-    margin-top: 1rem;
-    a {
-      font-weight: bold;
-      color: var(--orange);
+    button {
+      max-width: 250px;
+      height: 55px;
+      margin: 0;
     }
   }
 `;
+
+export const TaskContainer = styled.form``;

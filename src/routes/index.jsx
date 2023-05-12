@@ -9,7 +9,7 @@ function Routes() {
   const [autenticado, setAutenticado] = useState(false);
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("@doit:token"));
+    const token = JSON.parse(localStorage.getItem("@doit:accessToken"));
 
     if (token) {
       return setAutenticado(true);
